@@ -1,0 +1,47 @@
+<div class="header">
+
+  <h3 class="text-muted">uncorked</h3>
+</div>
+<div ng-controller="GameController as gameCtrl">
+<div ng-hide="gameCtrl.signedin()">
+  <div ng-controller="SignUpController as signupCtrl">
+    <form name="signUpForm" ng-submit="signupCtrl.addSignup(signup)" >
+    <label>Email:</label>
+    <input ng-model="signupCtrl.signup.email" type="email" />
+  </br>
+    <label>Username:</label>
+    <input ng-model="signupCtrl.signup.username" type="text" />
+  </br>
+    <label>Password:</label>
+    <input ng-model="signupCtrl.signup.password" type="password" />
+    </br>
+    <label>Password Confirmation:</label>
+    <input ng-model="signupCtrl.signup.passwordConfirmation" type="password" />
+  </br>
+    <input type="submit" value="Submit" />
+    </form>
+
+      <h2>Registrations</h2>
+    <div ng-repeat="signup in signupCtrl.signups">
+      <p>{{signup.email}}</p>
+    </div>
+
+    <h3>Your Email:</h3>
+    <p>{{signupCtrl.signup.email}}</p>
+    <h3>Your Username:</h3>
+    <p>{{signupCtrl.signup.username}}</p>
+  </div>
+
+  <div ng-controller="SignInController as signinCtrl">
+    <form name="SignInForm" ng-submit="signinCtrl.login(signin)">
+      <label>Username:</label>
+    <input ng-model="signinCtrl.signin.username" type="text" />
+  </br>
+    <label>Password:</label>
+    <input ng-model="signinCtrl.signin.password" type="password" />
+    </br>
+    <input type="submit" value="Submit" />
+  </form>
+  </div>
+</div>
+</div>
