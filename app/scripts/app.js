@@ -14,9 +14,6 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/blackjack'{
-        //location service
-      })
       .otherwise({
         redirectTo: '/'
       });
