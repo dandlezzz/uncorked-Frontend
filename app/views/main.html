@@ -2,34 +2,7 @@
 
   <h3 class="text-muted">uncorked</h3>
 </div>
-<div ng-controller="GameController as gameCtrl">
-  <!-- <div id="gameTable" ng-show="gameCtrl"> -->
-    <div id="gameTable" ng-show="gameCtrl.signedin()">
-    <h1>Welcome to Blackjack {{gameCtrl.email}}</h1>
-
-    <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()">Sit at a table</a>
-    <div ng-show="gameCtrl.displayGame()">
-      <p> You have {{gameCtrl.chips}} chips!</p>
-      
-
-      <form name="betForm" ng-submit="gameCtrl.placeBet(bet)">
-        <label> Bet: </lablel>
-        <input ng-model="gameCtrl.bet.amount" type='text'>
-      </br>
-      <input type='submit' class="btn btn-primary btn-lg" value='submit'>Place Bet</a>
-      </form>
-    
-
-      <p> the dealer has the {{gameCtrl.dealerCards}} showing </p>
-      <p> You have {{gameCtrl.playerCards[0]}} and {{gameCtrl.playerCards[1]}} </p>
-      <!-- <img src= "{{gameCtrl.showCard}}" /> -->
-    </br>
-    </br>
-      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
-      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
-    </div>
-  </div>
-  <div ng-hide="gameCtrl.signedin()">
+  <h3> Signup to the worlds greatest Casino </h3>
     <div ng-controller="SignUpController as signupCtrl">
       <form name="signUpForm" ng-submit="signupCtrl.addSignup(signup)" >
       <label>Email:</label>
@@ -46,29 +19,7 @@
     </br>
       <input type="submit" value="Submit" />
       </form>
-
-        <h2>Registrations</h2>
-      <div ng-repeat="signup in signupCtrl.signups">
-        <p>{{signup.email}}</p>
-      </div>
-
-      <h3>Your Email:</h3>
-      <p>{{signupCtrl.signup.email}}</p>
-      <h3>Your Username:</h3>
-      <p>{{signupCtrl.signup.username}}</p>
     </div>
-
-    <div ng-controller="SignInController as signinCtrl">
-      <form name="SignInForm" ng-submit="signinCtrl.login(signin)">
-        <label>Username:</label>
-      <input ng-model="signinCtrl.signin.username" type="text" />
-    </br>
-      <label>Password:</label>
-      <input ng-model="signinCtrl.signin.password" type="password" />
-      </br>
-      <input type="submit" value="Submit" />
-    </form>
-    </div>
-  </div>
-
+  </br>
+    <p> already signed up? <a href="#/signin"> Login</span> </p>
 </div>

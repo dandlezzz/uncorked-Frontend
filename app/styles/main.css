@@ -58,6 +58,12 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
+.cards{
+  list-style: none;
+}
+.cards li {
+  display: inline-block;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

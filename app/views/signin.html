@@ -1,0 +1,15 @@
+<div class="header">
+  <h3 class="text-muted">uncorked</h3>
+</div>
+</br>
+    <div ng-controller="SignInController as signinCtrl">
+      <form name="SignInForm" ng-submit="signinCtrl.login(signin)">
+        <label>Username:</label>
+      <input ng-model="signinCtrl.signin.username" type="text" />
+    </br>
+      <label>Password:</label>
+      <input ng-model="signinCtrl.signin.password" type="password" />
+      </br>
+      <input type="submit" value="Submit" />
+      </form>
+    </div>

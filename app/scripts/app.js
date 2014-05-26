@@ -12,7 +12,15 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: "SignUpController"
+      })
+      .when('/signin',{
+        templateUrl: "views/signin.html",
+        controller: "SignInController"
+      }) 
+      .when('/game', {
+        templateUrl: 'views/game.html',
+        controller: 'GameController'
       })
       .otherwise({
         redirectTo: '/'

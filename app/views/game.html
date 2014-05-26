@@ -1,0 +1,40 @@
+<div class="header">
+
+  <h3 class="text-muted">uncorked</h3>
+</div>
+<div ng-controller="GameController as gameCtrl" ng-app="uncorkedApp">
+ 
+    <h1>Welcome to Blackjack</h1>
+
+    <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()">Sit at a table</a>
+    <div ng-show="gameCtrl.displayGame()">
+      <p> You have {{gameCtrl.chips}} chips!</p>
+      
+
+      <form name="betForm" ng-submit="gameCtrl.placeBet(bet)">
+        <label> Bet: </lablel>
+        <input ng-model="gameCtrl.bet.amount" type='text'>
+      </br>
+      <input type='submit' class="btn btn-primary btn-lg" value='submit'>Place Bet</a>
+      </form>
+
+      <div id="dealHand">
+        <ul class='cards'>
+          <li ng-repeat="card in gameCtrl.dealerCards track by $index"><img src="{{card}}" /></li>
+        </ul>
+      </div>
+
+       <div id="playerHand">
+        <ul class='cards' >
+          <li ng-repeat="card in gameCtrl.playerCards track by $index"><img src="{{card}}" /></li>
+        </ul>
+      </div>
+
+    </br>
+    <div id="status" ng-show="gameCtrl.playerHandValue">
+      <p> You have {{gameCtrl.playerHandValue}}
+    </div>
+    </br>
+      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
+      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
+  </div>
