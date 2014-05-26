@@ -37,6 +37,10 @@
     <div id="houseStatus" ng-show="gameCtrl.houseHandValue">
       <p> The house shows {{gameCtrl.houseHandValue}}
     </div>
+    <div id="winnerStatus" ng-show="gameCtrl.showWinConditions">
+      <p>{{gameCtrl.winner}}</p>
+      <p ng-show="gameCtrl.bust"> YOU BUSTED!</p>
+    </div>
     </br>
       <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
       <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
