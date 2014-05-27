@@ -2,46 +2,62 @@
 
   <h3 class="text-muted">uncorked</h3>
 </div>
+
 <div ng-controller="GameController as gameCtrl" ng-app="uncorkedApp">
- 
-    <h1>Welcome to Blackjack</h1>
+  <div class="row">
 
-    <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()">Sit at a table</a>
-    <div ng-show="gameCtrl.displayGame()">
-      <p> You have {{gameCtrl.chips}} chips!</p>
-      
+   <div class="col-md-8">
+      <h1>Welcome to Blackjack</h1>
 
-      <form name="betForm" ng-submit="gameCtrl.placeBet(bet)">
-        <label> Bet: </lablel>
-        <input ng-model="gameCtrl.bet.amount" type='text'>
+      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()">Sit at a table</a>
+      <div ng-show="gameCtrl.displayGame()">
+       
+        
+        <div id="bettingForm" ng-show="gameCtrl.newGame">
+        <form name="betForm" ng-submit="gameCtrl.placeBet(bet)">
+          <label> Bet: </lablel>
+          <input ng-model="gameCtrl.bet.amount" type='text'>
+        <input type='submit' class="btn btn-primary btn-lg" value='Place Bet'>
+        </form>
+        </div>
+
+        <div id="dealHand">
+          <ul class='cards'>
+            <li ng-repeat="card in gameCtrl.dealerCards track by $index"><img src="{{card}}" /></li>
+          </ul>
+        </div>
+
+         <div id="playerHand">
+          <ul class='cards' >
+            <li ng-repeat="card in gameCtrl.playerCards track by $index"><img src="{{card}}" /></li>
+          </ul>
+        </div>
+
       </br>
-      <input type='submit' class="btn btn-primary btn-lg" value='submit'>Place Bet</a>
-      </form>
-
-      <div id="dealHand">
-        <ul class='cards'>
-          <li ng-repeat="card in gameCtrl.dealerCards track by $index"><img src="{{card}}" /></li>
-        </ul>
+      <div id="status" ng-show="gameCtrl.playerHandValue">
+        <p> You have {{gameCtrl.playerHandValue}}</p>
       </div>
-
-       <div id="playerHand">
-        <ul class='cards' >
-          <li ng-repeat="card in gameCtrl.playerCards track by $index"><img src="{{card}}" /></li>
-        </ul>
+      <div id="houseStatus" ng-show="gameCtrl.houseHandValue">
+        <p> The house shows {{gameCtrl.houseHandValue}}</p>
       </div>
+      <div id="winnerStatus">
+        <p>{{gameCtrl.winner}}</p>
+        <p ng-show="gameCtrl.bust"> YOU BUSTED!</p>
+      </div>
+      </br>
+      <div id="playButtons" ng-hide="gameCtrl.handOver()">
+        <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
+        <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
+      </div>
+    </div>
+     </div>
+     <div class="col-md-4" id="playerStuff">
+     <br>
+    </br>
+     <div ng-show="gameCtrl.displayGame()">
+      <p> You have {{gameCtrl.chips}} chips!</p>
+      <p> {{gameCtrl.bet.amount}} </p>
+    </div>
+    </div>
 
-    </br>
-    <div id="status" ng-show="gameCtrl.playerHandValue">
-      <p> You have {{gameCtrl.playerHandValue}}
-    </div>
-    <div id="houseStatus" ng-show="gameCtrl.houseHandValue">
-      <p> The house shows {{gameCtrl.houseHandValue}}
-    </div>
-    <div id="winnerStatus" ng-show="gameCtrl.showWinConditions">
-      <p>{{gameCtrl.winner}}</p>
-      <p ng-show="gameCtrl.bust"> YOU BUSTED!</p>
-    </div>
-    </br>
-      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
-      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
-  </div>
+</div>

@@ -9,6 +9,7 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 	this.playerHandValue =0;
 	this.houseHandValue = 0;
 	this.bust = false;
+	this.newGame = true;
 	this.sitAny = function(){
 		var self = this;
 		$http({
@@ -21,7 +22,9 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 		})
 	};
 	this.placeBet = function(bet){
-		this.winner = ''
+		this.newGame = false;
+		this.bust = false;
+		this.winner = '';
 		this.playerCards = [];
 		this.dealerCards = [];
 		this.houseHandValue = 0;
@@ -32,6 +35,7 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			method: "PUT",
 			headers : {'Content-Type': 'application/json'}
 		}).success(function(data){
+			console.log(data)
 			self.displayGame(data)
 			self.dealerCards.push(Cards.makeImagePath(data['House cards'][0]) )
 			self.updatePlayerHandValsNPics(data)
@@ -46,15 +50,9 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			method: "PUT",
 			headers : {'Content-Type': 'application/json'}
 		}).success(function(data){
-			if (data['User Hand Value'].length === 0){
-				this.dealerCards = [];
-				this.winner ='' ;
-				this.houseHandValue = 0;
-				this.playerHandValue = 0;
-				this.playerCards = 0;
-				return this.bust = true;
-			} else {
-				self.updatePlayerHandValsNPics(data)
+			self.updatePlayerHandValsNPics(data)
+			if (self.playerHandValue > 21){
+				self.bust = true
 			}
 		})
 	};
@@ -101,7 +99,16 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 		}
 		return true;
 	}
-	this.showWinConditions = false;
+	this.handOver = function(){
+		if (this.bust === true){
+			return true;
+		} else if (this.winner !== ''){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	this.calcWinnerOffChips = function(data){
 		this.showWinConditions = true;
 		var resultantChips = data["User Current Chips"]
@@ -113,6 +120,7 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 		} else if (resultantChips === this.chips) {
 			this.winner = "You Lost!"
 		}
+		this.newGame = true;
 	}
 });
 //1 is ace 10 is 10 11 is jack 13 is king
@@ -124,7 +132,7 @@ var Cards = {
 		var value = 0;
 		valueArray.sort().reverse().forEach(function(val){
 			if (value > 10 && val === 1){
-			value += val;
+				value += val;
 			} else if (value <= 10 && val === 1){
 				value += 11;
 			} else {
