@@ -9,7 +9,8 @@
    <div class="col-md-8">
       <h1>Welcome to Blackjack</h1>
 
-      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()">Sit at a table</a>
+      <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.sitAny()" ng-hide="gameCtrl.playing">Sit at a table</a>
+    </br>
       <div ng-show="gameCtrl.displayGame()">
        
         
@@ -19,11 +20,13 @@
           <input ng-model="gameCtrl.bet.amount" type='text'>
         <input type='submit' class="btn btn-primary btn-lg" value='Place Bet'>
         </form>
+      </br>
         </div>
 
         <div id="dealHand">
           <ul class='cards'>
             <li ng-repeat="card in gameCtrl.dealerCards track by $index"><img src="{{card}}" /></li>
+            <li ng-show="gameCtrl.showBackCard"><img src="images/back.gif"/><li>
           </ul>
         </div>
 
@@ -37,7 +40,7 @@
       <div id="status" ng-show="gameCtrl.playerHandValue">
         <p> You have {{gameCtrl.playerHandValue}}</p>
       </div>
-      <div id="houseStatus" ng-show="gameCtrl.houseHandValue">
+      <div id="houseStatus" ng-show="gameCtrl.showWinConditions">
         <p> The house shows {{gameCtrl.houseHandValue}}</p>
       </div>
       <div id="winnerStatus">
@@ -47,6 +50,7 @@
       </br>
       <div id="playButtons" ng-hide="gameCtrl.handOver()">
         <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.hit()">Hit</a>
+        <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.double()">Double</a>
         <a class="btn btn-primary btn-lg" role="button" ng-click="gameCtrl.stand()">Stand</a>
       </div>
     </div>
@@ -55,8 +59,8 @@
      <br>
     </br>
      <div ng-show="gameCtrl.displayGame()">
-      <p> You have {{gameCtrl.chips}} chips!</p>
-      <p> {{gameCtrl.bet.amount}} </p>
+      <h3> You have {{gameCtrl.chips}} chips!</h3>
+      <h3> Current Bet: {{gameCtrl.bet.amount}} </h3>
     </div>
     </div>
 

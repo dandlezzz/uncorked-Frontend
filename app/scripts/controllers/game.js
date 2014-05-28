@@ -10,7 +10,12 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 	this.houseHandValue = 0;
 	this.bust = false;
 	this.newGame = true;
+	this.showBackCard = false;
+	this.playing = false;
+	this.showWinConditions = false;
+
 	this.sitAny = function(){
+		this.playing = true;
 		var self = this;
 		$http({
 			url : "http://localhost:3000/api/houses",
@@ -22,6 +27,8 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 		})
 	};
 	this.placeBet = function(bet){
+		this.showWinConditions = false;
+		this.showBackCard = true;
 		this.newGame = false;
 		this.bust = false;
 		this.winner = '';
@@ -35,12 +42,22 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			method: "PUT",
 			headers : {'Content-Type': 'application/json'}
 		}).success(function(data){
-			console.log(data)
 			self.displayGame(data)
 			self.dealerCards.push(Cards.makeImagePath(data['House cards'][0]) )
 			self.updatePlayerHandValsNPics(data)
+			self.updateHouseHandValue(data)
+			if (self.houseHandValue === 21){
+				self.dealerBlackJack(data);
+			}
 		})
 	};
+	this.dealerBlackJack = function(data){
+		console.log("blackjack check triggered")
+		console.log(data)
+		this.showBackCard = false;
+		this.calcWinnerOffChips(data)
+		this.updateHouseHandImages(data)
+	}
 	this.hit = function(){
 		this.playerCards =[];
 		var self = this;
@@ -52,8 +69,31 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 		}).success(function(data){
 			self.updatePlayerHandValsNPics(data)
 			if (self.playerHandValue > 21){
-				self.bust = true
+				self.showBackCard = false;
+				self.updateHouseHandImages(data)
+				self.bust = true;
+				self.newGame = true;
 			}
+		})
+	};
+	this.double = function(){
+		this.playerCards =[];
+		var self = this;
+		$http({
+			url : "http://localhost:3000/api/tables/1",
+			params : {"decision":'double', "token" : $rootScope.currentUser.auth_token.access_token},
+			method: "PUT",
+			headers : {'Content-Type': 'application/json'}
+		}).success(function(data){
+			self.updatePlayerHandValsNPics(data)
+			if (self.playerHandValue > 21){
+				self.bust = true;
+				self.newGame = true;
+			}
+			self.showBackCard = false;
+			self.updateHouseHandImages(data)
+			self.updateHouseHandValue(data)
+			self.calcWinnerOffChips(data)
 		})
 	};
 	this.stand = function(){
@@ -64,6 +104,7 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			method: "PUT",
 			headers : {'Content-Type': 'application/json'}
 		}).success(function(data){
+			self.showBackCard = false;
 			self.updateHouseHandImages(data)
 			self.updateHouseHandValue(data)
 			self.calcWinnerOffChips(data)
@@ -108,11 +149,11 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			return false;
 		}
 	}
+	
 
 	this.calcWinnerOffChips = function(data){
 		this.showWinConditions = true;
 		var resultantChips = data["User Current Chips"]
-		console.log(data)
 		if(resultantChips > this.chips && this.houseHandValue === this.playerHandValue ){
 			this.winner = "A Push!" ;
 		} else if ( resultantChips > this.chips ) {
