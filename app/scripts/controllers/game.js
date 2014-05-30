@@ -67,7 +67,8 @@ angular.module('uncorkedApp').controller('GameController', function($http, $root
 			method: "PUT",
 			headers : {'Content-Type': 'application/json'}
 		}).success(function(data){
-			self.updatePlayerHandValsNPics(data)
+				console.log(data)
+				self.updatePlayerHandValsNPics(data)
 			if (self.playerHandValue > 21){
 				self.showBackCard = false;
 				self.updateHouseHandImages(data)
